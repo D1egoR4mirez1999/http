@@ -25,6 +25,10 @@ server.route("/", "GET", (req, res) => {
   res.sendFile("./public/index.html", "text/html");
 });
 
+server.route("/login", "GET", (req, res) => {
+  res.sendFile("./public/index.html", "text/html");
+});
+
 server.route("/styles.css", "GET", (req, res) => {
   res.sendFile("./public/styles.css", "text/css");
 });
@@ -43,4 +47,24 @@ server.route("/api/posts", "GET", (req, res) => {
     };
   });
   res.end(JSON.stringify(posts));
+});
+
+server.route("/api/login", "POST", (req, res) => {
+  let data = "";
+  req.on("data", (chunk) => {
+    data = data + chunk.toString();
+  });
+  req.on("end", () => {
+    const { username, password } = JSON.parse(data);
+    const user = USERS.find((user) => user.username === username && user.password === password);
+    
+    if (!user) {
+      res.writeHead(401, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Invalid username or password" }));
+      return;
+    }
+    
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Login successful" }));
+  });
 });
