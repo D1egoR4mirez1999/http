@@ -4,6 +4,7 @@ const staticFiles = require("./middlewares/static-files");
 const userRoutes = require("./middlewares/user-routes");
 const { SESSIONS, authMiddleware } = require("./middlewares/auth");
 const dataMiddleware = require("./middlewares/data");
+const crossOriginMiddleware = require("./middlewares/cross-origin");
 
 const USERS = [
   { id: 1, name: "John Doe", username: "john.doe", password: "string" },
@@ -26,10 +27,17 @@ const HOSTNAME = "localhost";
 
 server.listen(PORT, HOSTNAME);
 
+server.use(crossOriginMiddleware);
 server.use(userRoutes);
 server.use(staticFiles("./public"));
 server.use(authMiddleware);
 server.use(dataMiddleware);
+
+// Cross Origin
+server.route("/api/cross-origin", "OPTIONS", (req, res) => {
+  res.writeHead(200);
+  res.end();
+});
 
 // Posts
 server.route("/api/posts", "GET", (req, res) => {
