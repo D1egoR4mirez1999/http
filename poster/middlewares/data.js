@@ -3,13 +3,14 @@ function dataMiddleware(req, res, next) {
     return next();
   }
 
-  let data = "";
+  let data = [];
   req.on("data", (chunk) => {
-    data = data + chunk.toString();
+    data.push(chunk);
   });
 
   req.on("end", () => {
-    req.body = JSON.parse(data);
+    const body = Buffer.concat(data).toString();
+    req.body = JSON.parse(body);
     next();
   });
 }

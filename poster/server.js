@@ -33,12 +33,6 @@ server.use(staticFiles("./public"));
 server.use(authMiddleware);
 server.use(dataMiddleware);
 
-// Cross Origin
-server.route("/api/cross-origin", "OPTIONS", (req, res) => {
-  res.writeHead(204);
-  res.end();
-});
-
 // Posts
 server.route("/api/posts", "GET", (req, res) => {
   res.writeHead(200, { "Content-Type": "application/json" });
