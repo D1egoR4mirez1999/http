@@ -35,7 +35,7 @@ server.use(dataMiddleware);
 
 // Cross Origin
 server.route("/api/cross-origin", "OPTIONS", (req, res) => {
-  res.writeHead(200);
+  res.writeHead(204);
   res.end();
 });
 
