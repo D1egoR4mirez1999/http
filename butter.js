@@ -4,7 +4,6 @@ const fs = require("node:fs/promises");
 class Butter {
   constructor() {
     this.server = http.createServer();
-    // { "GET/": callback, "POST/": callback }
     this.routes = {};
     this.middleware = [];
 
